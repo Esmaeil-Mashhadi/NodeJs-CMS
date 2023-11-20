@@ -93,6 +93,12 @@ async function findPermissionWithId(id){
         return permission
     }
 }
+
+async function getComments(id , model){
+    const foundComment = await model.findOne({'comments._id' : id} , {'comments.$': 1})
+    return foundComment?.comments[0]    
+
+}
 module.exports = {
     checkCategoryExistence,
     checkBlogExistence,
@@ -103,6 +109,7 @@ module.exports = {
     checkPermissionExistence,
     findRoleWithIdOrTitle,
     findPermissionWithId,
-    findProductById
+    findProductById,
+    getComments
     
 }

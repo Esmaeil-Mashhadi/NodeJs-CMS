@@ -6,7 +6,7 @@ function randomNumberGenrator(){
     return Math.floor((Math.random() * 90000) + 10000)
 }
 function objectCopy(object){
-    return JSON.parse(JSON.stringify(object))
+    return JSON.parse(JSON.stringify(object)) 
 }
 
 function deleteInvalidData(data = {} , blackListData =[]){

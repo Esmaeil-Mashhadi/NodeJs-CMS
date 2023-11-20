@@ -72,7 +72,7 @@ class productController extends Controller{
                     }
                 })
             } else{
-                products = await productModel.find({})
+                products = await productModel.find({}).populate([{path:'category'} ,  {path:"supplier"}])
             }
            
             res.status(StatusCodes.OK).json({

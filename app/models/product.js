@@ -1,7 +1,9 @@
-const { Schema, model, default: mongoose } = require("mongoose");
+const { default: mongoose, model } = require("mongoose");
 const { commentSchema } = require("./public.schema");
+const { userModel } = require("./user");
 
-const productSchema = Schema({
+
+const productSchema = new mongoose.Schema({
     title : {type: String, required : true},
     short_text : {type: String, required : true},
     text : {type: String, required : true},
@@ -19,7 +21,7 @@ const productSchema = Schema({
     format : {type: String},
     type : {type: String, required : true}, //virtual - physical
     format : {type: String},
-    supplier : {type: mongoose.Types.ObjectId, ref:"User", required : true},
+    supplier : {type: mongoose.Types.ObjectId, ref:"user", required : true},
     features : {type: Object, default : {
         length : "",
         height : "",
@@ -43,5 +45,5 @@ productSchema.index({title : "text"})
 
 
 module.exports = {
-    productModel: model("Product" , productSchema)
+    productModel:  model("Product" , productSchema)
 }

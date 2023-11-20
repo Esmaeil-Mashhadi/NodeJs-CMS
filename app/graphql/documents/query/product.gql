@@ -1,0 +1,37 @@
+{
+  products {
+    _id
+    title
+    short_text
+    text
+    price
+    discount
+    count
+    type
+    comments {
+      user {
+        _id
+        first_name
+        last_name
+        mobile
+        role
+      }
+      comment
+      show
+      openToComment
+      createdAt
+      replies {
+        comment
+        show
+        createdAt
+        user {
+          _id
+          first_name
+          last_name
+          mobile
+          role
+        }
+      }
+    }
+  }
+}

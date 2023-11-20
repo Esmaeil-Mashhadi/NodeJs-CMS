@@ -13,7 +13,7 @@ tags:{type:[String] , default :[]},
 category : {type :mongoose.Types.ObjectId , ref:"category", required:true},
 comments:{type:[commentSchema], default :[]},
 likes:{type:[mongoose.Types.ObjectId], ref:"user", default :[]},
-dislike:{type:[mongoose.Types.ObjectId], ref:"user", default :[]},
+dislikes:{type:[mongoose.Types.ObjectId], ref:"user", default :[]},
 bookmark:{type:[mongoose.Types.ObjectId] , ref:"user", default:[]}
 },{timestamps : true , versionKey: false , toJSON :{virtuals : true}})
 

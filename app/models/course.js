@@ -1,29 +1,29 @@
-const { Schema , mongoose, model } = require("mongoose");
 const { commentSchema } = require("./public.schema");
 const {getCourseTime} = require('../utils/functions/utilityFunctions');
-const { CategoryModel } = require("./categories");
+const { default: mongoose, model } = require("mongoose");
 
 
 
-const Episodes = Schema({
+const Episodes =  new mongoose.Schema({
     title:{type:String , required: true},
     text: {type:String , required : true},
     type: {type:String ,deafult : "unlock"},
     time: {type:String , required: true},
     videoAddress:{type: String , required: true}
 
-}, {toJSON : {virtuals: true}})
+}, {toJSON: {virtuals: true}})
 
-Episodes.virtual('vdieoUrl').get(function(){
+
+Episodes.virtual('videoUrl').get(function(){
     return `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${this.videoAddress}`
 })
 
-const chapter = Schema({
+const chapter = new mongoose.Schema({
     title: {type:String , required: true},
     text : {type:String , default :""},
     episodes :{type:[Episodes] , default: []}
 })
-const CourseSchema = Schema({
+const CourseSchema = new mongoose.Schema({
     title : {type: String, required : true},
     short_text : {type: String, required : true},
     text : {type: String, required : true},

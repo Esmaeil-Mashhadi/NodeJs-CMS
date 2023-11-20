@@ -47,8 +47,47 @@ async function verifyAccessToken(req , res ,next){
     }
 
 
+async function verifyAccessTokenInGraphql(req , res){
+        
+        try { 
+            const [bearer , token] = getToken(req.headers)
+            if(token && bearer.toLowerCase() == "bearer"){
+         
+                const result = verify(token , ACCESS_TOKEN_SECRET_KEY , (err , payload)=>{
+                    if(err) throw createHttpError.NotFound('please login first')
+                    return payload
+                })
+    
+                
+        
+                if(result){
+                    const {mobile} = result
+                    const user = await userModel.findOne({mobile} ,{password:0 , token:0 , otp:0})
+                    if(!user){
+                        throw createHttpError.Unauthorized("user not found")
+                    }
+                    return user
+                } else {
+                    throw createHttpError.NotFound("user doesn't exist")
+                }
+            }
+     
+    
+        } catch (error) { 
+            throw  createHttpError.Unauthorized()
+        }
+      
+
+    }
+    
+    
+    
 
 
-    module.exports = {
-        verifyAccessToken
+
+
+
+module.exports = {
+        verifyAccessToken ,
+        verifyAccessTokenInGraphql
     }
