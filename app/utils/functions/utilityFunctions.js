@@ -128,5 +128,5 @@ module.exports = {
     objectCopy,
     deleteInvalidData,
     getVideoTime,
-    getCourseTime
+    getCourseTime,
 }

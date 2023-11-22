@@ -127,6 +127,87 @@ async function getComments(id , model){
     return foundComment?.comments[0]    
 
 }
+
+
+async function getUserBasket(user){
+  return  await userModel.aggregate([
+        {$match :{ _id : user._id }},
+        {$project : {basket  : 1}},
+
+        {$lookup : {
+            from :"products",
+            localField:"basket.products.productID",
+            foreignField:"_id",
+            as:'productDetail'
+        }},
+
+        {$lookup : {
+            from :"courses",
+            localField:"basket.courses.courseID",
+            foreignField:"_id",
+            as:'courseDetail'
+        }},
+
+
+        {$addFields : {
+            'productDetail' :{
+            $function: {
+                body: function(productDetail , basketProducts){
+                       return productDetail.map(product => {
+
+                         const count = basketProducts.find(item => item.productID.valueOf() == product._id.valueOf()).count
+                         return {...product ,
+                         basketCount : count,
+                         totalPrice : product.price * count , 
+                         finalPrice : (product.price * (100 - product.discount)/100) * count }
+                        })
+                },
+                args:['$productDetail' , '$basket.products'],
+                lang:'js'
+            }
+        } , 'courseDetail' :{
+            $function: {
+                body: function(courseDetail){
+
+                       return courseDetail.map(course => {
+                         return {...course ,
+                         finalPrice : (course.price * (100 - course.discount)/100)  }
+                        })
+                },
+                args:['$courseDetail'],
+                lang:'js'
+            }
+        } , "payment" :{ 
+
+                $function  : {
+                    body: function(courseDetail , productDetail , basketProducts){
+                        const courseAmount = courseDetail.reduce((acc , curr)=>{
+                            return  acc + (curr.price * (100 - curr.discount)/100)
+                        },0)
+                        
+                        const productAmount = productDetail.reduce((acc , curr)=>{
+                            const count = basketProducts.find(item => item.productID.valueOf() == curr._id.valueOf()).count 
+                            return acc += (curr.price * (100 - curr.discount)/100)*count
+                        },0) 
+
+                        const productID = productDetail.map(item => (item._id))
+                        const courseID = courseDetail.map(item => (item._id))
+                        return{
+                            courseAmount , courseID , productAmount , productID,
+                            totalPayement : courseAmount + productAmount
+                        }
+                    },
+                    args :['$courseDetail' ,'$productDetail' , '$basket.products' ],
+                    lang:'js'
+                }
+
+        }
+    
+    }},
+
+            {$project : {basket : 0}}
+    ])
+}
 module.exports = {
     checkCategoryExistence,
     checkBlogExistence,
@@ -139,6 +220,7 @@ module.exports = {
     findPermissionWithId,
     findProductById,
     getComments , 
-    getOrdersInBasket
+    getOrdersInBasket,
+    getUserBasket
     
 }

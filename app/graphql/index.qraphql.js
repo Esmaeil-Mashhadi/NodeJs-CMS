@@ -7,7 +7,7 @@ const { CommentResolverForBlog, CommentResolverForCourse, CommentResolverForProd
 const { likeResolverForProduct, likeResolverForCourse, likeResolverForBlog } = require("./mutations/like.resolver");
 const { disLikeResolverForProduct, disLikeResolverForCourse, disLikeResolverForBlog } = require("./mutations/dislike.resolver");
 const { bookmarkResolverForProduct, bookmarkResolverForCourses, bookmarkResolverForBlogs } = require("./mutations/bookmark.resolver");
-const { getCoursesBookmarks, getBlogsBookmarks, getProductsBookmarks } = require("./query/userBookmarks.resolver");
+const { getCoursesBookmarks, getBlogsBookmarks, getProductsBookmarks, getUserOrders } = require("./query/user-profile-data.resolver");
 const { AddProductToBasketResolver, AddCourseToBasketResolver, removeProductFromBasketResolver, removeCourseFromBasketResolver } = require("./mutations/basket.resolver");
 
 const RootQuery = new GraphQLObjectType({
@@ -20,7 +20,8 @@ const RootQuery = new GraphQLObjectType({
        courses: courseResolver,
        coursesBookmarks : getCoursesBookmarks,
        blogsBookmarks: getBlogsBookmarks,
-       productsBookmarks: getProductsBookmarks
+       productsBookmarks: getProductsBookmarks,
+       getUserOrders 
     }
 })
 const RootMutation = new GraphQLObjectType({

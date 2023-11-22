@@ -33,6 +33,7 @@ function parseLiteral(valueNode){
 
 function toObject(value){
     if(typeof value == "object"){
+
         return value
     }
     if(typeof value == 'string' && value.charAt(0) == "{"){
@@ -44,6 +45,7 @@ function toObject(value){
 
 
 function parseObject(valueNode){
+
     const value = Object.create(null)
     valueNode.fields.forEach(item =>{
         value[item.name.value] = parseValueNode(item.value)
