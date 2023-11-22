@@ -6,6 +6,9 @@ const { courseResolver } = require("./query/course.resolver");
 const { CommentResolverForBlog, CommentResolverForCourse, CommentResolverForProduct } = require("./mutations/comment.resolver");
 const { likeResolverForProduct, likeResolverForCourse, likeResolverForBlog } = require("./mutations/like.resolver");
 const { disLikeResolverForProduct, disLikeResolverForCourse, disLikeResolverForBlog } = require("./mutations/dislike.resolver");
+const { bookmarkResolverForProduct, bookmarkResolverForCourses, bookmarkResolverForBlogs } = require("./mutations/bookmark.resolver");
+const { getCoursesBookmarks, getBlogsBookmarks, getProductsBookmarks } = require("./query/userBookmarks.resolver");
+const { AddProductToBasketResolver, AddCourseToBasketResolver, removeProductFromBasketResolver, removeCourseFromBasketResolver } = require("./mutations/basket.resolver");
 
 const RootQuery = new GraphQLObjectType({
     name:"RootQuery", 
@@ -14,7 +17,10 @@ const RootQuery = new GraphQLObjectType({
        products : productResolver,
        categories: categoryResolver,
        categoryChilds :categoryChildResolver,
-       courses: courseResolver
+       courses: courseResolver,
+       coursesBookmarks : getCoursesBookmarks,
+       blogsBookmarks: getBlogsBookmarks,
+       productsBookmarks: getProductsBookmarks
     }
 })
 const RootMutation = new GraphQLObjectType({
@@ -28,7 +34,15 @@ const RootMutation = new GraphQLObjectType({
         likeCourse: likeResolverForCourse,
         dislikeCourse : disLikeResolverForCourse,
         likeBlog: likeResolverForBlog,
-        dislikeBlog: disLikeResolverForBlog
+        dislikeBlog: disLikeResolverForBlog,
+        bookmarkProduct : bookmarkResolverForProduct,
+        bookmarkCourse : bookmarkResolverForCourses,
+        bookmarkBlog : bookmarkResolverForBlogs,
+        addProductToBasket : AddProductToBasketResolver,
+        addCourseToBasket : AddCourseToBasketResolver,
+        removeOneProduct : removeProductFromBasketResolver,
+        removeOneCourse: removeCourseFromBasketResolver
+
 
     }
 })

@@ -1,6 +1,5 @@
 const { default: mongoose, model } = require("mongoose");
 const { commentSchema } = require("./public.schema");
-const { userModel } = require("./user");
 
 
 const productSchema = new mongoose.Schema({

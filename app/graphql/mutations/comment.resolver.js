@@ -1,10 +1,9 @@
 const { GraphQLString } = require("graphql");
 const { checkBlogExistence, getComments, checkCourseExistence, findProductById } = require("../../utils/functions/dataBaseFunctions");
 const { BlogModel } = require("../../models/blog");
-const { verifyAccessTokenInGraphql, verifyAccessToken } = require("../../http/middlewares/verifyAccessToken");
+const { verifyAccessTokenInGraphql } = require("../../http/middlewares/verifyAccessToken");
 const { StatusCodes } = require("http-status-codes");
 const { ResponseType } = require("../typeDefs/public.type");
-const { CommentType } = require("../typeDefs/comment.type");
 const createHttpError = require("http-errors");
 const { default: mongoose } = require("mongoose");
 const { CourseModel } = require("../../models/course");

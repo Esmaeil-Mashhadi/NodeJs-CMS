@@ -139,7 +139,7 @@ class BlogController extends Controller{
                 req.body.image = req.body.image.replace(/\\/g, "/")
             }
 
-            let blackListData = ["bookmark" , 'likes' , "deslike" , "comments" , "author" ]
+            let blackListData = ["bookmarks" , 'likes' , "deslike" , "comments" , "author" ]
 
             deleteInvalidData(data , blackListData)
 

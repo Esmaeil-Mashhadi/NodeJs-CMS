@@ -1,5 +1,5 @@
 const { GraphQLObjectType, GraphQLString, GraphQLList } = require("graphql");
-const { CategorySubType, AnyType } = require("./public.type");
+const { AnyType } = require("./public.type");
 
 
 const CategoryType = new GraphQLObjectType({

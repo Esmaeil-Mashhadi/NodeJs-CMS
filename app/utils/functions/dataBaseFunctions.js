@@ -7,6 +7,7 @@ const { permissionsModel } = require("../../models/permission");
 const { productModel } = require("../../models/product");
 const { categoryModel } = require("../../models/categories");
 const { objectCopy } = require("./utilityFunctions");
+const { userModel } = require("../../models/user");
 
 
 async function checkCategoryExistence(id){
@@ -94,6 +95,33 @@ async function findPermissionWithId(id){
     }
 }
 
+async function getOrdersInBasket(userID , productID , courseID){
+  
+ if(productID){
+    const basketData = await userModel.findOne({
+    $and:[{_id:userID} , {'basket.products.productID': productID}]
+ } , {'basket.products.$' : 1})
+
+ const data = objectCopy(basketData)
+ return data?.basket?.products[0] 
+ }else if(courseID){
+
+    const basketData = await userModel.findOne({
+        $and:[{_id:userID} , {'basket.courses.courseID': courseID}]
+     } , {'basket.courses.$' : 1})
+    
+     const data = objectCopy(basketData)
+     
+     return data?.basket?.courses[0] 
+ }
+ 
+ throw createHttpError.NotFound('there is no order to modify')
+ 
+
+
+
+}
+
 async function getComments(id , model){
     const foundComment = await model.findOne({'comments._id' : id} , {'comments.$': 1})
     return foundComment?.comments[0]    
@@ -110,6 +138,7 @@ module.exports = {
     findRoleWithIdOrTitle,
     findPermissionWithId,
     findProductById,
-    getComments
+    getComments , 
+    getOrdersInBasket
     
 }
