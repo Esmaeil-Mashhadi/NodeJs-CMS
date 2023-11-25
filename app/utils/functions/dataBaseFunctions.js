@@ -186,7 +186,7 @@ async function getUserBasket(user){
                         },0)
                         
                         const productAmount = productDetail.reduce((acc , curr)=>{
-                            const count = basketProducts.find(item => item.productID.valueOf() == curr._id.valueOf()).count 
+                            const count = basketProducts.find(item => item.productID.equals(curr._id)).count 
                             return acc += (curr.price * (100 - curr.discount)/100)*count
                         },0) 
 
