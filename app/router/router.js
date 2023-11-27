@@ -6,10 +6,12 @@ const { AdminRoutes } = require("./admin/admin.routes");
 const { verifyAccessToken } = require("../http/middlewares/verifyAccessToken");
 const { graphqlHTTP } = require("express-graphql");
 const { graphqlConfig } = require("../utils/functions/graphql.config");
+const { apiPaymentRoute } = require("./api/payment");
 
 
 const router = Router()
-router.use('/' , HomeRoute)
+router.use('/' , apiPaymentRoute)
+router.use('/home' , HomeRoute)
 router.use('/user' , UserAuthRoutes)
 router.use("/developer" , developerRoutes)
 router.use('/admin'  ,verifyAccessToken , AdminRoutes)

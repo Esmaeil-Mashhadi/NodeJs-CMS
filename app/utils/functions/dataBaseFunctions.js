@@ -194,7 +194,7 @@ async function getUserBasket(user){
                         const courseID = courseDetail.map(item => (item._id))
                         return{
                             courseAmount , courseID , productAmount , productID,
-                            totalPayement : courseAmount + productAmount
+                            totalPayment : courseAmount + productAmount
                         }
                     },
                     args :['$courseDetail' ,'$productDetail' , '$basket.products' ],

@@ -1,4 +1,5 @@
 const fs = require('fs')
+const moment = require('moment-jalali')
 const path  = require('path')
 
 
@@ -118,6 +119,9 @@ function getCourseTime(chapters = []){
     return `${hour}:${minutes}:${seconds}`
 }
 
+function invoiceNumberGenerator(){
+    return moment().format("YYYYMMDDHHmmssSSS") + String(process.hrtime()[1].padStart(9,0))
+}
 
 
 module.exports = {
@@ -129,4 +133,5 @@ module.exports = {
     deleteInvalidData,
     getVideoTime,
     getCourseTime,
+    invoiceNumberGenerator
 }
